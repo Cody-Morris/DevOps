@@ -30,6 +30,9 @@ variable "numberofrg" {
     default = 2
 }
 
+variable "rgname" {
+    default = "azurerm_resource_group"
+}
 
 resource "aws_iam_user" "new_users" {
   for_each = toset(var.new_users)
