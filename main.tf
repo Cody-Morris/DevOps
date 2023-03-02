@@ -20,15 +20,22 @@ provider "aws" {
 }
 
 
-resource "azurerm_resource_group" "rg1" {
-  name     = "hs-az-rg"
-  location = "Canada Central"
-
-  tags = {
-    source = "terraform"
-  }
+resource "azurerm_resource_group" "example" {
+  name     = "${var.rgname}-${count.index}"
+  count    = var.numberofrg 
+  location = "West Europe"
 }
 
-resource "aws_s3_bucket" "b" {
-  bucket = "my-tf-test-bucket"
+variable "numberofrg" {
+    default = 2
+}
+
+
+resource "aws_iam_user" "new_users" {
+  for_each = toset(var.new_users)
+  name = each.value
+}
+
+variable "new_users" {
+  default = ["user1", "user2", "user3"]
 }
